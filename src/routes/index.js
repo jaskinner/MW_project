@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
-router.post("/", handleFile);
+router.post("/upload", handleFile);
 
 router.get("/thanks", (req, res) => {
     res.render("thanks");
