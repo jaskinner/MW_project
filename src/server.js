@@ -12,7 +12,7 @@ App setup
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname + "/views"));
 
-app.use("/upload", fileUpload())
+app.use("/upload", fileUpload());
 
 /* ****
 Routes 
