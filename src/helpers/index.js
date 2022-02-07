@@ -1,32 +1,33 @@
-const path = require("path");
+const path = require("path"),
+    async = require("async");
 
 const handleFile = (req, res) => {
-    let sampleFile;
-    let uploadPath;
+    async.waterfall(
+        [
+            function (cb) {
+                let newFile;
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send("No files were uploaded.");
-    }
+                if (!req.files || Object.keys(req.files).length === 0) {
+                    return res.status(400).send("No files were uploaded.");
+                }
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    sampleFile = req.files.sampleFile;
-    uploadPath = path.join(__dirname + "../../../tmp/" + sampleFile.name);
+                newFile = req.files.newFile;
 
-    console.log(sampleFile.data.toString("utf8"));
+                cb(null, newFile);
+            },
+            function (newFile, cb) {
+                let fileText = newFile.data.toString("utf8");
+                fileText = fileText.replace(/the/g, "XXXX");
 
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv(uploadPath, function (err) {
-        if (err) return res.status(500).send(err);
-
-        res.send("File uploaded!");
-    });
-};
-
-const renderSuccess = (req, res) => {
-    res.render("index");
+                cb(null, fileText);
+            },
+        ],
+        function (err, results) {
+            res.render("thanks", { results: results });
+        }
+    );
 };
 
 module.exports = {
-    renderSuccess: renderSuccess,
     handleFile: handleFile,
 };
