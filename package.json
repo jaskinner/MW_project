@@ -1,7 +1,7 @@
 {
-    "name": "meltwater-project",
+    "name": "redactor",
     "version": "1.0.0",
-    "description": "Code exercise for Meltwater",
+    "description": "Just a fun redactor file",
     "main": "server.js",
     "scripts": {
         "start": "node src/server.js",
